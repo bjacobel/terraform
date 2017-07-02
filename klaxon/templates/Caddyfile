@@ -1,0 +1,8 @@
+https://klaxon.${cluster_name}.${domain} {
+  log stdout
+  gzip
+  proxy / klaxon:3000 {
+    transparent
+  }
+  tls ${email}
+}
