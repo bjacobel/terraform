@@ -1,8 +1,12 @@
+resource "aws_cloudwatch_log_group" "klaxon_group" {
+  name = "klaxon"
+}
+
 data "template_file" "task_definition" {
   template = "${file("${path.module}/templates/task.json")}"
 
   vars {
-    log_group_name = "${aws_cloudwatch_log_group.klaxon.name}"
+    log_group_name = "${aws_cloudwatch_log_group.klaxon_group.name}"
     region = "${var.region}"
     DATABASE_URL = "${var.DATABASE_URL}"
     ADMIN_EMAILS = "${var.email}"
@@ -27,11 +31,7 @@ data "template_file" "caddyfile" {
   }
 }
 
-resource "aws_cloudwatch_log_group" "klaxon" {
-  name = "klaxon"
-}
-
-resource "aws_ecs_task_definition" "klaxon" {
+resource "aws_ecs_task_definition" "klaxon_defn" {
   family = "klaxon"
   container_definitions = "${data.template_file.task_definition.rendered}"
 
@@ -51,10 +51,10 @@ resource "aws_ecs_task_definition" "klaxon" {
   }
 }
 
-resource "aws_ecs_service" "klaxon" {
+resource "aws_ecs_service" "klaxon_svc" {
   name = "klaxon"
   cluster = "${var.cluster_id}"
-  task_definition = "${aws_ecs_task_definition.klaxon.arn}"
+  task_definition = "${aws_ecs_task_definition.klaxon_defn.arn}"
   desired_count = 1
 }
 
