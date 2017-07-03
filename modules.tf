@@ -26,3 +26,13 @@ module "klaxon" {
   cluster_name = "${var.cluster_name}"
   cluster_id = "${module.ecs.cluster_id}"
 }
+
+module "ipsec" {
+  source = "./ipsec"
+  region = "${var.region}"
+  VPN_IPSEC_PSK = "${var.VPN_IPSEC_PSK}"
+  VPN_PASSWORD = "${var.VPN_PASSWORD}"
+  VPN_USER = "${var.VPN_USER}"
+  cluster_id = "${module.ecs.cluster_id}"
+}
+
