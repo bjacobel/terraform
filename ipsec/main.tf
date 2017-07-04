@@ -2,8 +2,8 @@ resource "aws_cloudwatch_log_group" "ipsec_group" {
   name = "ipsec"
 }
 
-data "template_file" "task_definition" {
-  template = "${file("${path.module}/templates/task.json")}"
+data "template_file" "container_definitions" {
+  template = "${file("${path.module}/templates/containers.json")}"
 
   vars {
     log_group_name = "${aws_cloudwatch_log_group.ipsec_group.name}"
@@ -16,7 +16,7 @@ data "template_file" "task_definition" {
 
 resource "aws_ecs_task_definition" "ipsec_defn" {
   family = "ipsec"
-  container_definitions = "${data.template_file.task_definition.rendered}"
+  container_definitions = "${data.template_file.container_definitions.rendered}"
 
   volume {
     name = "modules"

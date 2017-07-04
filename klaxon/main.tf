@@ -2,8 +2,8 @@ resource "aws_cloudwatch_log_group" "klaxon_group" {
   name = "klaxon"
 }
 
-data "template_file" "task_definition" {
-  template = "${file("${path.module}/templates/task.json")}"
+data "template_file" "container_definitions" {
+  template = "${file("${path.module}/templates/containers.json")}"
 
   vars {
     log_group_name = "${aws_cloudwatch_log_group.klaxon_group.name}"
@@ -21,33 +21,13 @@ data "template_file" "task_definition" {
   }
 }
 
-data "template_file" "caddyfile" {
-  template = "${file("${path.module}/../klaxon/templates/Caddyfile")}"
-
-  vars {
-    cluster_name = "${var.cluster_name}"
-    domain = "${var.domain}"
-    email = "${var.email}"
-  }
-}
-
 resource "aws_ecs_task_definition" "klaxon_defn" {
   family = "klaxon"
-  container_definitions = "${data.template_file.task_definition.rendered}"
-
-  volume {
-    name = "Caddyfile"
-    host_path = "/home/ec2-user/klaxon/Caddyfile"
-  }
+  container_definitions = "${data.template_file.container_definitions.rendered}"
 
   volume {
     name = "postgres-data"
     host_path = "/home/ec2-user/klaxon/postgres-data"
-  }
-
-  volume {
-    name = "dot-caddy"
-    host_path = "/home/ec2-user/klaxon/dot-caddy"
   }
 }
 

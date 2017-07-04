@@ -3,8 +3,8 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_key_pair" "keypair" {
-  key_name="${var.cluster_name}-key"
-  public_key="${file("~/.ssh/${var.cluster_name}.pem")}"
+  key_name="ec2-key"
+  public_key="${file("~/.ssh/ec2-bjacobel.pub")}"
 }
 
 resource "aws_eip" "static_ip" {
@@ -35,15 +35,65 @@ resource "aws_instance" "ecs_host" {
   instance_type = "${var.instance_type}"
   private_ip = "172.31.0.246"
   subnet_id  = "${var.subnet_id}"
+  security_groups = ["${aws_security_group.ecs_group.id}"]
 
+  // for webserver
   provisioner "file" {
     content = "${var.caddyfile}"
     destination = "/home/ec2-user/klaxon/Caddyfile"
   }
 
-  // @TODO: Move this file inside the ipsec module
-  user_data = <<EOF
-#!/bin/bash
-sudo modprobe af_key
-EOF
+  // for ipsec vpn
+  provisioner "remote-exec" {
+    inline = [
+      "sudo modprobe af_key"
+    ]
+  }
+}
+
+resource "aws_security_group" "ecs_group" {
+  name        = "ecs_group"
+
+  ingress {
+    from_port   = 0
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 500
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 0
+    to_port     = 4500
+    protocol    = "udp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+    prefix_list_ids = ["pl-12c4e678"]
+  }
 }

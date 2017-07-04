@@ -5,7 +5,7 @@ module "ecs" {
   subnet_id = "${aws_subnet.subnet.id}"
   cluster_name = "${var.cluster_name}"
   instance_type = "${var.instance_type}"
-  caddyfile = "${module.klaxon.caddyfile}"
+  caddyfile = "${module.webserver.caddyfile}"
 }
 
 module "klaxon" {
@@ -34,5 +34,14 @@ module "ipsec" {
   VPN_PASSWORD = "${var.VPN_PASSWORD}"
   VPN_USER = "${var.VPN_USER}"
   cluster_id = "${module.ecs.cluster_id}"
+}
+
+module "webserver" {
+  source = "./webserver"
+  cluster_id = "${module.ecs.cluster_id}"
+  email = "${var.email}"
+  domain = "${var.domain}"
+  region = "${var.region}"
+  cluster_name = "${var.cluster_name}"
 }
 
