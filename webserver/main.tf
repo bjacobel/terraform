@@ -26,8 +26,8 @@ resource "aws_ecs_task_definition" "webserver_defn" {
   container_definitions = "${data.template_file.container_definitions.rendered}"
 
   volume {
-    name = "Caddyfile"
-    host_path = "/home/ec2-user/klaxon/Caddyfile"
+    name = "caddy-root"
+    host_path = "/home/ec2-user/klaxon/caddy-root"
   }
 
   volume {
@@ -40,5 +40,5 @@ resource "aws_ecs_service" "webserver_svc" {
   name = "webserver"
   cluster = "${var.cluster_id}"
   task_definition = "${aws_ecs_task_definition.webserver_defn.arn}"
-  desired_count = 1
+  desired_count = 0
 }

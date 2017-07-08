@@ -16,8 +16,8 @@
     "essential": true,
     "mountPoints": [
       {
-        "containerPath": "/var/www/html/Caddyfile",
-        "sourceVolume": "Caddyfile"
+        "containerPath": "/var/www/html",
+        "sourceVolume": "caddy-root"
       },
       {
         "containerPath": "/.caddy",
