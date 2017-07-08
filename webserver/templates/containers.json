@@ -33,6 +33,14 @@
         "awslogs-stream-prefix": "caddy"
       }
     },
-    "memoryReservation": 50
+    "memoryReservation": 50,
+    "privileged": true,
+    "ulimits": [
+      {
+        "name": "nofile",
+        "softLimit": 8192,
+        "hardLimit": 32768
+      }
+    ]
   }
 ]

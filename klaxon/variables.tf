@@ -1,5 +1,4 @@
 variable DATABASE_URL {}
-variable POSTGRES_USER {}
 variable AMAZON_SES_ADDRESS {}
 variable AMAZON_SES_DOMAIN {}
 variable AMAZON_SES_PASSWORD {}

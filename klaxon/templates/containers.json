@@ -47,23 +47,22 @@
         "awslogs-stream-prefix": "klaxon"
       }
     },
+    "command": [
+      "sh",
+      "-c",
+      "sleep 30; bundle exec puma -C config/puma.rb"
+    ],
     "essential": true,
     "memoryReservation": 200
   },
   {
     "name": "postgres",
+    "hostname": "postgres",
     "essential": true,
     "mountPoints": [
       {
         "containerPath": "/var/lib/postgresql/data",
         "sourceVolume": "postgres-data"
-      }
-    ],
-
-    "environment": [
-      {
-        "name": "POSTGRES_USER",
-        "value": "${POSTGRES_USER}"
       }
     ],
     "image": "postgres:alpine",
@@ -79,11 +78,6 @@
   },
   {
     "name": "migrate",
-    "volumesFrom": [
-      {
-        "sourceContainer": "klaxon"
-      }
-    ],
     "essential": false,
     "environment": [
       {
@@ -100,12 +94,9 @@
     ],
     "image": "axioscode/klaxon",
     "command": [
-      "bundle",
-      "exec",
-      "rake",
-      "db:create",
-      "db:migrate",
-      "users:create_admin"
+      "sh",
+      "-c",
+      "sleep 30; bundle exec rake db:create db:migrate users:create_admin"
     ],
     "logConfiguration": {
       "logDriver": "awslogs",

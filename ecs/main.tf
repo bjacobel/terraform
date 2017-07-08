@@ -70,43 +70,17 @@ resource "aws_instance" "ecs_host" {
   vpc_security_group_ids = ["${aws_security_group.ecs_group.id}"]
   iam_instance_profile = "${aws_iam_instance_profile.ecs_profile.name}"
 
-  // for webserver
-  provisioner "file" {
-    content = "${var.caddyfile}"
-    destination = "/efs/webserver/caddy-root/Caddyfile"
-
-    connection {
-      type = "ssh"
-      user = "ec2-user"
-      private_key = "${file("~/.ssh/ec2-bjacobel")}"
-    }
-  }
-
-  // for ipsec vpn
-  provisioner "remote-exec" {
-    inline = [
-      "sudo modprobe af_key",
-    ]
-
-    connection {
-      type = "ssh"
-      user = "ec2-user"
-      private_key = "${file("~/.ssh/ec2-bjacobel")}"
-    }
-  }
-
   user_data = <<EOF
-#!/bin/bash
-echo ECS_CLUSTER=${aws_ecs_cluster.cluster.name} >> /etc/ecs/ecs.config
-
-yum install -y nfs-utils
-mkdir -p /efs
-mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 \
-    ${aws_efs_mount_target.ecs_efs_mount.dns_name}:/ /efs
-chown 1000:1000 /efs
+${data.template_file.user_data.rendered}
 EOF
+}
 
-  root_block_device {
-    volume_size = 8
+data "template_file" "user_data" {
+  template = "${file("${path.module}/user-data.sh")}"
+
+  vars {
+    cluster_name = "${aws_ecs_cluster.cluster.name}"
+    efs_dns_name = "${aws_efs_mount_target.ecs_efs_mount.dns_name}"
+    caddyfile = "${var.caddyfile}"
   }
 }

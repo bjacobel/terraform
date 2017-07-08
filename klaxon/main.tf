@@ -10,7 +10,6 @@ data "template_file" "container_definitions" {
     region = "${var.region}"
     DATABASE_URL = "${var.DATABASE_URL}"
     ADMIN_EMAILS = "${var.email}"
-    POSTGRES_USER = "${var.POSTGRES_USER}"
     AMAZON_SES_ADDRESS = "${var.AMAZON_SES_ADDRESS}"
     AMAZON_SES_DOMAIN = "${var.AMAZON_SES_DOMAIN}"
     AMAZON_SES_PASSWORD = "${var.AMAZON_SES_PASSWORD}"

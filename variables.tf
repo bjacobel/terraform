@@ -2,7 +2,6 @@ variable region {}
 variable domain {}
 
 variable DATABASE_URL {}
-variable POSTGRES_USER {}
 variable AMAZON_SES_ADDRESS {}
 variable AMAZON_SES_DOMAIN {}
 variable MAILER_FROM_ADDRESS {}
