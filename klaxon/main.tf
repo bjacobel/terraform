@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "klaxon_defn" {
 
   volume {
     name = "postgres-data"
-    host_path = "/home/ec2-user/klaxon/postgres-data"
+    host_path = "/efs/klaxon/postgres-data"
   }
 }
 

@@ -53,6 +53,14 @@ resource "aws_iam_role" "ecs_role" {
 EOF
 }
 
+resource "aws_efs_file_system" "ecs_efs" {}
+
+resource "aws_efs_mount_target" "ecs_efs_mount" {
+  file_system_id = "${aws_efs_file_system.ecs_efs.id}"
+  subnet_id      = "${var.subnet_id}"
+  security_groups = ["${aws_security_group.nfs_group.id}"]
+}
+
 resource "aws_instance" "ecs_host" {
   key_name = "${aws_key_pair.keypair.key_name}"
   ami = "ami-04351e12"  // us-east-1 amzn-ami-2017.03.d-amazon-ecs-optimized
@@ -65,7 +73,7 @@ resource "aws_instance" "ecs_host" {
   // for webserver
   provisioner "file" {
     content = "${var.caddyfile}"
-    destination = "/home/ec2-user/klaxon/caddy-root/Caddyfile"
+    destination = "/efs/webserver/caddy-root/Caddyfile"
 
     connection {
       type = "ssh"
@@ -90,51 +98,15 @@ resource "aws_instance" "ecs_host" {
   user_data = <<EOF
 #!/bin/bash
 echo ECS_CLUSTER=${aws_ecs_cluster.cluster.name} >> /etc/ecs/ecs.config
+
+yum install -y nfs-utils
+mkdir -p /efs
+mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 \
+    ${aws_efs_mount_target.ecs_efs_mount.dns_name}:/ /efs
+chown 1000:1000 /efs
 EOF
-}
 
-resource "aws_security_group" "ecs_group" {
-  name = "ecs_group"
-
-  ingress {
-    from_port   = 0
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 0
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 0
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 0
-    to_port     = 500
-    protocol    = "udp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 0
-    to_port     = 4500
-    protocol    = "udp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
+  root_block_device {
+    volume_size = 8
   }
 }

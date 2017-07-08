@@ -3,6 +3,7 @@ module "ecs" {
   hosted_zone_name = "${aws_route53_zone.hosted_zone.name}"
   hosted_zone_id = "${aws_route53_zone.hosted_zone.zone_id}"
   subnet_id = "${aws_subnet.subnet.id}"
+  vpc_id = "${aws_vpc.vpc.id}"
   cluster_name = "${var.cluster_name}"
   instance_type = "${var.instance_type}"
   caddyfile = "${module.webserver.caddyfile}"

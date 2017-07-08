@@ -27,12 +27,12 @@ resource "aws_ecs_task_definition" "webserver_defn" {
 
   volume {
     name = "caddy-root"
-    host_path = "/home/ec2-user/klaxon/caddy-root"
+    host_path = "/efs/webserver/caddy-root"
   }
 
   volume {
     name = "dot-caddy"
-    host_path = "/home/ec2-user/klaxon/dot-caddy"
+    host_path = "/efs/webserver/dot-caddy"
   }
 }
 
@@ -40,5 +40,5 @@ resource "aws_ecs_service" "webserver_svc" {
   name = "webserver"
   cluster = "${var.cluster_id}"
   task_definition = "${aws_ecs_task_definition.webserver_defn.arn}"
-  desired_count = 0
+  desired_count = 1
 }
