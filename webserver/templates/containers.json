@@ -14,17 +14,23 @@
       }
     ],
     "essential": true,
-    "mountPoints": [
+    "environment": [
       {
-        "containerPath": "/var/www/html",
-        "sourceVolume": "caddy-root"
-      },
-      {
-        "containerPath": "/.caddy",
-        "sourceVolume": "dot-caddy"
+        "name": "CADDYPATH",
+        "value": "/caddy/.caddy"
       }
     ],
-    "image": "joshix/caddy",
+    "mountPoints": [
+      {
+        "containerPath": "/caddy",
+        "sourceVolume": "caddy-root"
+      }
+    ],
+    "command": [
+      "--conf",
+      "/caddy/Caddyfile"
+    ],
+    "image": "yobasystems/alpine-caddy",
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {

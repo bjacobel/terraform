@@ -7,7 +7,7 @@ yum install -y nfs-utils
 mkdir -p /efs
 mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 \
     ${efs_dns_name}:/ /efs
-chown 1000:1000 /efs
+sudo chown -R 500:500 /efs
 
 # Install modules needed for ipsec
 sudo modprobe af_key

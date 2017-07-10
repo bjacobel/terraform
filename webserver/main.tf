@@ -29,11 +29,6 @@ resource "aws_ecs_task_definition" "webserver_defn" {
     name = "caddy-root"
     host_path = "/efs/webserver/caddy-root"
   }
-
-  volume {
-    name = "dot-caddy"
-    host_path = "/efs/webserver/dot-caddy"
-  }
 }
 
 resource "aws_ecs_service" "webserver_svc" {
