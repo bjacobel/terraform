@@ -13,6 +13,12 @@
         "protocol": "tcp"
       }
     ],
+    "extraHosts": [
+      {
+        "hostname": "klaxon",
+        "ipAddress": "172.17.0.5"
+      }
+    ],
     "essential": true,
     "environment": [
       {
@@ -41,6 +47,7 @@
     },
     "memoryReservation": 50,
     "privileged": true,
+    "user": "root",
     "ulimits": [
       {
         "name": "nofile",

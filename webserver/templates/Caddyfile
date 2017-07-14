@@ -1,8 +1,17 @@
-https://kla.${cluster_name}.${domain} {
+#https://klaxon.${cluster_name}.${domain} {
+#  log stdout
+#  gzip
+#  proxy / klaxon:3000 {
+#    transparent
+#  }
+#  tls ${email}
+#}
+
+http://klaxon.${cluster_name}.${domain} {
   log stdout
   gzip
   proxy / klaxon:3000 {
     transparent
   }
-  tls ${email}
+  tls off
 }

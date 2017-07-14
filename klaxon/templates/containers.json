@@ -96,7 +96,7 @@
     "command": [
       "sh",
       "-c",
-      "sleep 30; bundle exec rake db:create db:migrate users:create_admin"
+      "sleep 30; bundle exec rake db:create db:migrate users:create_admin && rails runner \"AppSetting.set_default_host('http://klaxon.${cluster_name}.${domain_name}')\""
     ],
     "logConfiguration": {
       "logDriver": "awslogs",

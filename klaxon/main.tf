@@ -17,6 +17,8 @@ data "template_file" "container_definitions" {
     MAILER_FROM_ADDRESS = "${var.MAILER_FROM_ADDRESS}"
     SECRET_KEY_BASE = "${var.SECRET_KEY_BASE}"
     SMTP_PROVIDER = "${var.SMTP_PROVIDER}"
+    cluster_name = "${var.cluster_name}"
+    domain_name = "${var.domain}"
   }
 }
 
@@ -39,6 +41,10 @@ resource "aws_ecs_service" "klaxon_svc" {
 
 resource "aws_ses_domain_identity" "ses_domain" {
   domain = "${var.domain}"
+}
+
+resource "aws_ses_domain_identity" "ses_domain_mailer_from" {
+  domain = "klaxon@${var.domain}"
 }
 
 resource "aws_route53_record" "amazonses_verification_record" {
