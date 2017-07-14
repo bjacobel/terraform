@@ -49,7 +49,7 @@ resource "aws_ses_domain_identity" "ses_domain_mailer_from" {
 
 resource "aws_route53_record" "amazonses_verification_record" {
   zone_id = "${var.hosted_zone_id}"
-  name    = "_amazonses.example.com"
+  name    = "_amazonses.${var.domain}"
   type    = "TXT"
   ttl     = "60"
   records = ["${aws_ses_domain_identity.ses_domain.verification_token}"]
