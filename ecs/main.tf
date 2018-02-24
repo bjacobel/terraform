@@ -63,7 +63,7 @@ resource "aws_efs_mount_target" "ecs_efs_mount" {
 
 resource "aws_instance" "ecs_host" {
   key_name = "${aws_key_pair.keypair.key_name}"
-  ami = "ami-04351e12"  // us-east-1 amzn-ami-2017.03.d-amazon-ecs-optimized
+  ami = "ami-a7a242da"  // us-east-1 amzn-ami-2017.09.i-amazon-ecs-optimized
   instance_type = "${var.instance_type}"
   private_ip = "172.31.0.246"
   subnet_id  = "${var.subnet_id}"
@@ -73,6 +73,27 @@ resource "aws_instance" "ecs_host" {
   user_data = <<EOF
 ${data.template_file.user_data.rendered}
 EOF
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo modprobe af_key",  # module needed for ipsec
+    ]
+
+    connection {
+      user = "ec2-user"
+      private_key = "${file("~/.ssh/ec2-bjacobel")}"
+    }
+  }
+
+  provisioner "file" {
+    content = "${join("\n", list(var.gogs_caddyfile, var.klaxon_caddyfile))}"
+    destination = "/efs/webserver/caddy-root/Caddyfile"
+
+    connection {
+      user = "ec2-user"
+      private_key = "${file("~/.ssh/ec2-bjacobel")}"
+    }
+  }
 }
 
 data "template_file" "user_data" {
@@ -81,7 +102,5 @@ data "template_file" "user_data" {
   vars {
     cluster_name = "${aws_ecs_cluster.cluster.name}"
     efs_dns_name = "${aws_efs_mount_target.ecs_efs_mount.dns_name}"
-    klaxon_caddyfile = "${var.klaxon_caddyfile}"
-    gitlab_caddyfile = "${var.gitlab_caddyfile}"
   }
 }

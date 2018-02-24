@@ -5,28 +5,20 @@
     ],
     "mountPoints": [
       {
-        "containerPath": "/srv/gitlab/config",
-        "sourceVolume": "config"
-      },
-      {
-        "containerPath": "/srv/gitlab/data",
+        "containerPath": "/data",
         "sourceVolume": "data"
       }
     ],
-    "name": "gitlab",
+    "name": "gogs",
     "environment": [
-      {
-        "name": "GITLAB_OMNIBUS_CONFIG",
-        "value": "external_url \"http://gitlab:8080\""
-      }
     ],
-    "image": "gitlab/gitlab-ce:latest",
+    "image": "gogs/gogs:latest",
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
         "awslogs-group": "${log_group_name}",
         "awslogs-region": "us-east-1",
-        "awslogs-stream-prefix": "gitlab"
+        "awslogs-stream-prefix": "gogs"
       }
     },
     "memoryReservation": 200

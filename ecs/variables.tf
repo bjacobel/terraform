@@ -5,4 +5,4 @@ variable hosted_zone_id {}
 variable subnet_id {}
 variable vpc_id {}
 variable klaxon_caddyfile {}
-variable gitlab_caddyfile {}
+variable gogs_caddyfile {}

@@ -7,7 +7,7 @@ module "ecs" {
   cluster_name = "${var.cluster_name}"
   instance_type = "${var.instance_type}"
   klaxon_caddyfile = "${module.klaxon.caddyfile}"
-  gitlab_caddyfile = "${module.gitlab.caddyfile}"
+  gogs_caddyfile = "${module.gogs.caddyfile}"
 }
 
 module "klaxon" {
@@ -46,8 +46,8 @@ module "webserver" {
   cluster_name = "${var.cluster_name}"
 }
 
-module "gitlab" {
-  source = "./gitlab"
+module "gogs" {
+  source = "./gogs"
   cluster_id = "${module.ecs.cluster_id}"
   email = "${var.email}"
   domain = "${var.domain}"

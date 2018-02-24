@@ -17,6 +17,10 @@
       {
         "hostname": "klaxon",
         "ipAddress": "172.17.0.5"
+      },
+      {
+        "hostname": "gogs",
+        "ipAddress": "172.17.0.4"
       }
     ],
     "essential": true,

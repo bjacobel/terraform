@@ -1,5 +1,5 @@
-resource "aws_cloudwatch_log_group" "gitlab_group" {
-  name = "gitlab"
+resource "aws_cloudwatch_log_group" "gogs_group" {
+  name = "gogs"
 }
 
 data "template_file" "caddyfile" {
@@ -9,8 +9,8 @@ data "template_file" "caddyfile" {
     cluster_name = "${var.cluster_name}"
     domain = "${var.domain}"
     email = "${var.email}"
-    service = "gitlab"
-    port = 8080
+    service = "gogs"
+    port = 3000
   }
 }
 
@@ -18,13 +18,13 @@ data "template_file" "container_definitions" {
   template = "${file("${path.module}/templates/containers.json")}"
 
   vars {
-    log_group_name = "${aws_cloudwatch_log_group.gitlab_group.name}"
+    log_group_name = "${aws_cloudwatch_log_group.gogs_group.name}"
     region = "${var.region}"
   }
 }
 
-resource "aws_ecs_task_definition" "gitlab_defn" {
-  family = "gitlab"
+resource "aws_ecs_task_definition" "gogs_defn" {
+  family = "gogs"
   container_definitions = "${data.template_file.container_definitions.rendered}"
 
   volume {
@@ -38,9 +38,9 @@ resource "aws_ecs_task_definition" "gitlab_defn" {
   }
 }
 
-resource "aws_ecs_service" "gitlab_svc" {
-  name = "gitlab"
+resource "aws_ecs_service" "gogs_svc" {
+  name = "gogs"
   cluster = "${var.cluster_id}"
-  task_definition = "${aws_ecs_task_definition.gitlab_defn.arn}"
+  task_definition = "${aws_ecs_task_definition.gogs_defn.arn}"
   desired_count = 1
 }
