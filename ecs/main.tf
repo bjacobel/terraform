@@ -81,6 +81,7 @@ data "template_file" "user_data" {
   vars {
     cluster_name = "${aws_ecs_cluster.cluster.name}"
     efs_dns_name = "${aws_efs_mount_target.ecs_efs_mount.dns_name}"
-    caddyfile = "${var.caddyfile}"
+    klaxon_caddyfile = "${var.klaxon_caddyfile}"
+    gitlab_caddyfile = "${var.gitlab_caddyfile}"
   }
 }

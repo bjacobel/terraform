@@ -14,5 +14,6 @@ sudo modprobe af_key
 
 # make sure caddyfile is on efs mount for webserver
 cat > /efs/webserver/caddy-root/Caddyfile <<- EOM
-${caddyfile}
+${klaxon_caddyfile}
+${gitlab_caddyfile}
 EOM

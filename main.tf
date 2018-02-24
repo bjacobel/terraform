@@ -1,6 +1,7 @@
 provider "aws" {
   region = "${var.region}"
   profile = "bjacobel"
+  version = "~> 1.9"
 }
 
 // The lines below set up common infra; everything you need to do anything interesting in AWS.

@@ -2,6 +2,18 @@ resource "aws_cloudwatch_log_group" "klaxon_group" {
   name = "klaxon"
 }
 
+data "template_file" "caddyfile" {
+  template = "${file("${path.module}/../webserver/templates/Caddyfile")}"
+
+  vars {
+    cluster_name = "${var.cluster_name}"
+    domain = "${var.domain}"
+    email = "${var.email}"
+    service = "klaxon"
+    port = 3000
+  }
+}
+
 data "template_file" "container_definitions" {
   template = "${file("${path.module}/templates/containers.json")}"
 
@@ -36,7 +48,7 @@ resource "aws_ecs_service" "klaxon_svc" {
   name = "klaxon"
   cluster = "${var.cluster_id}"
   task_definition = "${aws_ecs_task_definition.klaxon_defn.arn}"
-  desired_count = 1
+  desired_count = 0
 }
 
 resource "aws_ses_domain_identity" "ses_domain" {

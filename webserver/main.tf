@@ -11,16 +11,6 @@ data "template_file" "container_definitions" {
   }
 }
 
-data "template_file" "caddyfile" {
-  template = "${file("${path.module}/templates/Caddyfile")}"
-
-  vars {
-    cluster_name = "${var.cluster_name}"
-    domain = "${var.domain}"
-    email = "${var.email}"
-  }
-}
-
 resource "aws_ecs_task_definition" "webserver_defn" {
   family = "webserver"
   container_definitions = "${data.template_file.container_definitions.rendered}"

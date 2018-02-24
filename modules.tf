@@ -6,7 +6,8 @@ module "ecs" {
   vpc_id = "${aws_vpc.vpc.id}"
   cluster_name = "${var.cluster_name}"
   instance_type = "${var.instance_type}"
-  caddyfile = "${module.webserver.caddyfile}"
+  klaxon_caddyfile = "${module.klaxon.caddyfile}"
+  gitlab_caddyfile = "${module.gitlab.caddyfile}"
 }
 
 module "klaxon" {
@@ -45,3 +46,11 @@ module "webserver" {
   cluster_name = "${var.cluster_name}"
 }
 
+module "gitlab" {
+  source = "./gitlab"
+  cluster_id = "${module.ecs.cluster_id}"
+  email = "${var.email}"
+  domain = "${var.domain}"
+  region = "${var.region}"
+  cluster_name = "${var.cluster_name}"
+}
