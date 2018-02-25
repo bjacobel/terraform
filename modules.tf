@@ -18,23 +18,19 @@ module "klaxon" {
   AMAZON_SES_DOMAIN = "${var.AMAZON_SES_DOMAIN}"
   MAILER_FROM_ADDRESS = "${var.MAILER_FROM_ADDRESS}"
   SMTP_PROVIDER = "${var.SMTP_PROVIDER}"
-  AMAZON_SES_PASSWORD = "${var.AMAZON_SES_PASSWORD}"
-  AMAZON_SES_USERNAME = "${var.AMAZON_SES_USERNAME}"
-  SECRET_KEY_BASE = "${var.SECRET_KEY_BASE}"
   email = "${var.email}"
   domain = "${var.domain}"
   region = "${var.region}"
   cluster_name = "${var.cluster_name}"
   cluster_id = "${module.ecs.cluster_id}"
+  kms_key_id = "${module.ecs.kms_key_id}"
 }
 
 module "ipsec" {
   source = "./ipsec"
   region = "${var.region}"
-  VPN_IPSEC_PSK = "${var.VPN_IPSEC_PSK}"
-  VPN_PASSWORD = "${var.VPN_PASSWORD}"
-  VPN_USER = "${var.VPN_USER}"
   cluster_id = "${module.ecs.cluster_id}"
+  kms_key_id = "${module.ecs.kms_key_id}"
 }
 
 module "webserver" {

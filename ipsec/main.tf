@@ -8,9 +8,9 @@ data "template_file" "container_definitions" {
   vars {
     log_group_name = "${aws_cloudwatch_log_group.ipsec_group.name}"
     region = "${var.region}"
-    VPN_IPSEC_PSK = "${var.VPN_IPSEC_PSK}"
-    VPN_PASSWORD = "${var.VPN_PASSWORD}"
-    VPN_USER = "${var.VPN_USER}"
+    VPN_IPSEC_PSK = "${aws_ssm_parameter.vpn_ipsec_psk.value}"
+    VPN_PASSWORD = "${aws_ssm_parameter.vpn_password.value}"
+    VPN_USER = "bjacobel"
   }
 }
 
@@ -29,4 +29,26 @@ resource "aws_ecs_service" "ipsec_svc" {
   cluster = "${var.cluster_id}"
   task_definition = "${aws_ecs_task_definition.ipsec_defn.arn}"
   desired_count = 1
+}
+
+resource "aws_ssm_parameter" "vpn_password" {
+  name  = "vpn.password"
+  type  = "SecureString"
+  key_id = "${var.kms_key_id}"
+  value = "Set to real value using awscli; not managed here"
+
+  lifecycle {
+      ignore_changes = ["value", "version"]
+  }
+}
+
+resource "aws_ssm_parameter" "vpn_ipsec_psk" {
+  name  = "vpn.ipsec_psk"
+  type  = "SecureString"
+  key_id = "${var.kms_key_id}"
+  value = "Set to real value using awscli; not managed here"
+
+  lifecycle {
+      ignore_changes = ["value", "version"]
+  }
 }

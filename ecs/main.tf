@@ -104,3 +104,7 @@ data "template_file" "user_data" {
     efs_dns_name = "${aws_efs_mount_target.ecs_efs_mount.dns_name}"
   }
 }
+
+resource "aws_kms_key" "ecs" {
+  description = "Encrypts secrets used in the ${aws_ecs_cluster.cluster.name} ECS cluster"
+}
