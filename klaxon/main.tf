@@ -49,6 +49,7 @@ resource "aws_ecs_service" "klaxon_svc" {
   cluster = "${var.cluster_id}"
   task_definition = "${aws_ecs_task_definition.klaxon_defn.arn}"
   desired_count = 1
+  deployment_minimum_healthy_percent = 0
 }
 
 resource "aws_ses_domain_identity" "ses_domain" {
