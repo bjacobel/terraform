@@ -1,7 +1,7 @@
 https://${service}.${cluster_name}.${domain} {
   log stdout
   gzip
-  proxy / ${service}:${port} {
+  proxy / ${service}.docker:${port} {
     transparent
   }
   tls ${email}

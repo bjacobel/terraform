@@ -50,3 +50,9 @@ module "gogs" {
   region = "${var.region}"
   cluster_name = "${var.cluster_name}"
 }
+
+module "dnsdock" {
+  source = "./dnsdock"
+  region = "${var.region}"
+  cluster_id = "${module.ecs.cluster_id}"
+}

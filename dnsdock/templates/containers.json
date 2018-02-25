@@ -1,0 +1,30 @@
+[
+  {
+    "essential": true,
+    "privileged": true,
+    "portMappings": [
+      {
+        "hostPort": 53,
+        "containerPort": 53,
+        "protocol": "udp"
+      }
+    ],
+    "mountPoints": [
+      {
+        "containerPath": "/var/run/docker.sock",
+        "sourceVolume": "docker-sock"
+      }
+    ],
+    "name": "dnsdock",
+    "image": "aacebedo/dnsdock:latest-amd64",
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${log_group_name}",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "dnsdock"
+      }
+    },
+    "memoryReservation": 50
+  }
+]

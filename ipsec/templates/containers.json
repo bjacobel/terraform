@@ -1,9 +1,5 @@
 [
   {
-    "dnsServers": [
-      "8.8.8.8",
-      "8.8.4.4"
-    ],
     "portMappings": [
       {
         "hostPort": 500,
