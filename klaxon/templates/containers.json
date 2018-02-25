@@ -65,7 +65,7 @@
         "sourceVolume": "postgres-data"
       }
     ],
-    "image": "postgres:alpine",
+    "image": "postgres:9.6-alpine",
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
