@@ -6,8 +6,6 @@ module "ecs" {
   vpc_id = "${aws_vpc.vpc.id}"
   cluster_name = "${var.cluster_name}"
   instance_type = "${var.instance_type}"
-  klaxon_caddyfile = "${module.klaxon.caddyfile}"
-  gogs_caddyfile = "${module.gogs.caddyfile}"
 }
 
 module "klaxon" {
@@ -40,6 +38,10 @@ module "webserver" {
   domain = "${var.domain}"
   region = "${var.region}"
   cluster_name = "${var.cluster_name}"
+  services = [
+    "klaxon",
+    "gogs"
+  ]
 }
 
 module "gogs" {

@@ -2,18 +2,6 @@ resource "aws_cloudwatch_log_group" "gogs_group" {
   name = "gogs"
 }
 
-data "template_file" "caddyfile" {
-  template = "${file("${path.module}/../webserver/templates/Caddyfile")}"
-
-  vars {
-    cluster_name = "${var.cluster_name}"
-    domain = "${var.domain}"
-    email = "${var.email}"
-    service = "gogs"
-    port = 3000
-  }
-}
-
 data "template_file" "container_definitions" {
   template = "${file("${path.module}/templates/containers.json")}"
 

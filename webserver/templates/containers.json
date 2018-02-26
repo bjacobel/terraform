@@ -26,9 +26,12 @@
         "sourceVolume": "caddy-root"
       }
     ],
+    "entryPoint": [
+      "/bin/sh"
+    ],
     "command": [
-      "--conf",
-      "/caddy/Caddyfile"
+      "-c",
+      "echo \"${caddyfile}\" | sed 's/\\\\n/\\n/g' > /caddy/Caddyfile && /usr/bin/caddy --conf /caddy/Caddyfile"
     ],
     "image": "yobasystems/alpine-caddy",
     "logConfiguration": {

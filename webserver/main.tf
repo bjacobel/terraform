@@ -2,12 +2,26 @@ resource "aws_cloudwatch_log_group" "webserver_group" {
   name = "webserver"
 }
 
+data "template_file" "caddyfile" {
+  count = "${length(var.services)}"
+  template = "${file("${path.module}/../webserver/templates/Caddyfile")}"
+
+  vars {
+    cluster_name = "${var.cluster_name}"
+    domain = "${var.domain}"
+    email = "${var.email}"
+    service = "${var.services[count.index]}"
+    port = 3000
+  }
+}
+
 data "template_file" "container_definitions" {
   template = "${file("${path.module}/templates/containers.json")}"
 
   vars {
     log_group_name = "${aws_cloudwatch_log_group.webserver_group.name}"
     region = "${var.region}"
+    caddyfile = "${replace(join("\\n\\n", data.template_file.caddyfile.*.rendered), "/\n/", "\\\\n")}"
   }
 }
 
@@ -26,4 +40,5 @@ resource "aws_ecs_service" "webserver_svc" {
   cluster = "${var.cluster_id}"
   task_definition = "${aws_ecs_task_definition.webserver_defn.arn}"
   desired_count = 1
+  deployment_minimum_healthy_percent = 0
 }

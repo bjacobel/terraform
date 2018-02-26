@@ -84,16 +84,6 @@ EOF
       private_key = "${file("~/.ssh/ec2-bjacobel")}"
     }
   }
-
-  provisioner "file" {
-    content = "${join("\n", list(var.gogs_caddyfile, var.klaxon_caddyfile))}"
-    destination = "/efs/webserver/caddy-root/Caddyfile"
-
-    connection {
-      user = "ec2-user"
-      private_key = "${file("~/.ssh/ec2-bjacobel")}"
-    }
-  }
 }
 
 data "template_file" "user_data" {

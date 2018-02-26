@@ -2,18 +2,6 @@ resource "aws_cloudwatch_log_group" "klaxon_group" {
   name = "klaxon"
 }
 
-data "template_file" "caddyfile" {
-  template = "${file("${path.module}/../webserver/templates/Caddyfile")}"
-
-  vars {
-    cluster_name = "${var.cluster_name}"
-    domain = "${var.domain}"
-    email = "${var.email}"
-    service = "klaxon"
-    port = 3000
-  }
-}
-
 data "template_file" "container_definitions" {
   template = "${file("${path.module}/templates/containers.json")}"
 
