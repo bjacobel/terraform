@@ -1,0 +1,40 @@
+[
+  {
+    "essential": true,
+    "image": "${influx_image}",
+    "name": "${influx_container_name}",
+    "mountPoints": [
+      {
+        "sourceVolume": "influxdb-data",
+        "containerPath": "/var/lib/influxdb"
+      }
+    ],
+    "portMappings": [
+      {
+        "containerPort": 8086
+      }
+    ],
+    "environment": [
+      {
+        "name": "INFLUXDB_DB",
+        "value": "sitespeed"
+      },
+      {
+        "name": "INFLUXDB_USER",
+        "value": "sitespeed"
+      },
+      {
+        "name": "INFLUXDB_USER_PASSWORD",
+        "value": "${influx_sitespeed_pw}"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${influx_log_group_name}",
+        "awslogs-region": "${log_group_region}",
+        "awslogs-stream-prefix": "influx"
+      }
+    }
+  }
+]
