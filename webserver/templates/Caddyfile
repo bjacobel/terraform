@@ -1,4 +1,4 @@
-https://${service}.${cluster_name}.${domain} {
+${url} {
   log stdout
   gzip
   proxy / ${service}.docker:${port} {

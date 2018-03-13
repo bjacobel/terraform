@@ -5,4 +5,5 @@ variable region {}
 variable cluster_name {}
 variable services {
   type = "list"
+  default = []
 }

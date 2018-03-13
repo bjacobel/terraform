@@ -21,6 +21,6 @@
         "awslogs-stream-prefix": "gogs"
       }
     },
-    "memoryReservation": 200
+    "memoryReservation": 100
   }
 ]
