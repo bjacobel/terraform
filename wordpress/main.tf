@@ -41,28 +41,6 @@ resource "aws_ecs_service" "wordpress_svc" {
   name                               = "wordpress"
   cluster                            = "${var.cluster_id}"
   task_definition                    = "${aws_ecs_task_definition.wordpress_defn.arn}"
-  desired_count                      = 1
+  desired_count                      = 0
   deployment_minimum_healthy_percent = 0
-}
-
-resource "aws_route53_zone" "kate_site" {
-  name          = "katefeatherston.com"
-  comment       = ""
-  force_destroy = false
-}
-
-resource "aws_route53_record" "kate_site" {
-  zone_id = "${aws_route53_zone.kate_site.id}"
-  name    = "www.katefeatherston.com"
-  type    = "A"
-  ttl     = "60"
-  records = ["${var.cluster_ip}"]
-}
-
-resource "aws_route53_record" "kate_site_apex" {
-  zone_id = "${aws_route53_zone.kate_site.id}"
-  name    = "katefeatherston.com"
-  type    = "A"
-  ttl     = "60"
-  records = ["${var.cluster_ip}"]
 }

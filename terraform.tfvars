@@ -8,5 +8,5 @@ MAILER_FROM_ADDRESS = "klaxon@bjacobel.com"
 SMTP_PROVIDER = "AMAZON_SES"
 
 cluster_name = "xen"
-instance_type = "t2.micro"
+instance_type = "t2.small"
 email = "bjacobel@gmail.com"

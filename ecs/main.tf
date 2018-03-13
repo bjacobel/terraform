@@ -63,7 +63,7 @@ resource "aws_efs_mount_target" "ecs_efs_mount" {
 
 resource "aws_instance" "ecs_host" {
   key_name = "${aws_key_pair.keypair.key_name}"
-  ami = "ami-a7a242da"  // us-east-1 amzn-ami-2017.09.i-amazon-ecs-optimized
+  ami = "ami-cad827b7"  // us-east-1 amzn-ami-2017.09.i-amazon-ecs-optimized
   instance_type = "${var.instance_type}"
   private_ip = "172.31.0.246"
   subnet_id  = "${var.subnet_id}"
@@ -83,6 +83,10 @@ EOF
       user = "ec2-user"
       private_key = "${file("~/.ssh/ec2-bjacobel")}"
     }
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 }
 

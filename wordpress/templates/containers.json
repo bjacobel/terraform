@@ -26,7 +26,7 @@
         "awslogs-stream-prefix": "wordpress"
       }
     },
-    "memoryReservation": 200
+    "memoryReservation": 500
   },
   {
     "name": "mysql",
@@ -59,6 +59,6 @@
         "awslogs-stream-prefix": "mysql"
       }
     },
-    "memoryReservation": 100
+    "memoryReservation": 500
   }
 ]
