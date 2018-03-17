@@ -47,17 +47,7 @@ module "webserver" {
     {
       name = "gogs"
       port = "3000"
-    },
-    # {
-    #   name         = "wordpress"
-    #   port         = "80"
-    #   url_override = "https://www.katefeatherston.com"
-    # },
-    # {
-    #   name         = "wordpress"
-    #   port         = "80"
-    #   url_override = "https://katefeatherston.com"
-    # },
+    }
   ]
 }
 
@@ -75,13 +65,6 @@ module "dnsdock" {
   region     = "${var.region}"
   cluster_id = "${module.ecs.cluster_id}"
 }
-
-# module "wordpress" {
-#   source     = "./wordpress"
-#   region     = "${var.region}"
-#   cluster_id = "${module.ecs.cluster_id}"
-#   cluster_ip = "${module.ecs.cluster_ip}"
-# }
 
 module "katefeatherstondotcom" {
   source = "./katefeatherston.com"
