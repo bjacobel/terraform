@@ -1,0 +1,45 @@
+[
+  {
+    "essential": true,
+    "image": "${grafana_image}",
+    "name": "${grafana_container_name}",
+    "memoryReservation": 200,
+    "mountPoints": [
+      {
+        "sourceVolume": "grafana-sqlite",
+        "containerPath": "/var/lib/grafana"
+      }
+    ],
+    "portMappings": [
+      {
+        "containerPort": 3000
+      }
+    ],
+    "environment": [
+      {
+        "name": "GF_SERVER_ROOT_URL",
+        "value": "https://grafana.xen.bjacobel.com"
+      },
+      {
+        "name": "GF_SECURITY_ADMIN_USER",
+        "value": "bjacobel"
+      },
+      {
+        "name": "GF_SECURITY_ADMIN_PASSWORD",
+        "value": "${admin_password}"
+      },
+      {
+        "name": "GF_USERS_ALLOW_SIGN_UP",
+        "value": "false"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${grafana_log_group_name}",
+        "awslogs-region": "${log_group_region}",
+        "awslogs-stream-prefix": "grafana"
+      }
+    }
+  }
+]

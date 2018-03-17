@@ -47,6 +47,14 @@ module "webserver" {
     {
       name = "gogs"
       port = "3000"
+    },
+    {
+      name = "grafana"
+      port = "3000"
+    },
+    {
+      name = "influxdb"
+      port = "8086"
     }
   ]
 }
@@ -74,4 +82,11 @@ module "katefeatherstondotcom" {
     "198.49.23.144",
     "198.49.23.145"
   ]
+}
+
+module "tig" {
+  source     = "./tig"
+  region     = "${var.region}"
+  cluster_id = "${module.ecs.cluster_id}"
+  kms_key_id = "${module.ecs.kms_key_id}"
 }

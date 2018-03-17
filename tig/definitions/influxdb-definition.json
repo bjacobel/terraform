@@ -3,6 +3,7 @@
     "essential": true,
     "image": "${influx_image}",
     "name": "${influx_container_name}",
+    "memoryReservation": 200,
     "mountPoints": [
       {
         "sourceVolume": "influxdb-data",
@@ -17,15 +18,15 @@
     "environment": [
       {
         "name": "INFLUXDB_DB",
-        "value": "sitespeed"
+        "value": "influx"
       },
       {
         "name": "INFLUXDB_USER",
-        "value": "sitespeed"
+        "value": "influx"
       },
       {
         "name": "INFLUXDB_USER_PASSWORD",
-        "value": "${influx_sitespeed_pw}"
+        "value": "${influx_sitespeed_password}"
       }
     ],
     "logConfiguration": {
