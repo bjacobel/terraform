@@ -17,12 +17,7 @@ resource "aws_ecs_task_definition" "gogs_defn" {
 
   volume {
     name = "data"
-    host_path = "/efs/klaxon/data"
-  }
-
-  volume {
-    name = "config"
-    host_path = "/efs/klaxon/config"
+    host_path = "/efs/gogs/data"
   }
 }
 
