@@ -70,6 +70,10 @@ resource "aws_instance" "ecs_host" {
   vpc_security_group_ids = ["${aws_security_group.ecs_group.id}"]
   iam_instance_profile = "${aws_iam_instance_profile.ecs_profile.name}"
 
+  tags {
+    Cluster = "${var.cluster_name}"
+  }
+
   user_data = <<EOF
 ${data.template_file.user_data.rendered}
 EOF

@@ -76,7 +76,8 @@ resource "aws_iam_role_policy" "cloudwatch_ro" {
       "Effect": "Allow",
       "Action": [
         "cloudwatch:Get*",
-        "cloudwatch:List*"
+        "cloudwatch:List*",
+        "ec2:DescribeInstances"
       ],
       "Resource": "*"
     }
