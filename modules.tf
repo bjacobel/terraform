@@ -89,4 +89,5 @@ module "tig" {
   region     = "${var.region}"
   cluster_id = "${module.ecs.cluster_id}"
   kms_key_id = "${module.ecs.kms_key_id}"
+  instance_role_arn = "${module.ecs.instance_role_arn}"
 }

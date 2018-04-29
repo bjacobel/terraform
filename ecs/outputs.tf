@@ -9,3 +9,7 @@ output "kms_key_id" {
 output "cluster_ip" {
   value = "${aws_eip.static_ip.public_ip}"
 }
+
+output "instance_role_arn" {
+  value = "${aws_iam_role.ecs_role.arn}"
+}

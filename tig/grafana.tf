@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "grafana" {
 
   volume {
     name = "grafana-sqlite"
-    host_path = "/ecs/grafana/sqlite"
+    host_path = "/efs/grafana/sqlite"
   }
 }
 
@@ -55,7 +55,7 @@ resource "aws_iam_role" "cloudwatch_ro" {
       "Effect": "Allow",
       "Principal": {
         "Service": "ecs.amazonaws.com",
-        "AWS": "${aws_iam_role.app_instance.arn}"
+        "AWS": "${var.instance_role_arn}"
       },
       "Action": "sts:AssumeRole"
     }

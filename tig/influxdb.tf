@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "influxdb" {
 
   volume {
     name = "influxdb-data"
-    host_path = "/ecs/influxdb"
+    host_path = "/efs/influxdb"
   }
 }
 
