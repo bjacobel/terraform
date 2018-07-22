@@ -38,7 +38,7 @@
     "links": [
       "postgres"
     ],
-    "image": "axioscode/klaxon",
+    "image": "bjacobel/klaxon",
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
