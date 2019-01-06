@@ -10,7 +10,6 @@ data "template_file" "caddyfile" {
     cluster_name = "${var.cluster_name}"
     email        = "${var.email}"
     service      = "${lookup(var.services[count.index], "name")}"
-    port         = "${lookup(var.services[count.index], "port")}"
 
     url = "${lookup(
       var.services[count.index],

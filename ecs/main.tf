@@ -3,14 +3,8 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_key_pair" "keypair" {
-  key_name="ec2-key"
-  public_key="${file("~/.ssh/ec2-bjacobel.pub")}"
-}
-
-resource "aws_eip" "static_ip" {
-  vpc = true
-  instance = "${aws_instance.ecs_host.id}"
-  associate_with_private_ip = "${aws_instance.ecs_host.private_ip}"
+  key_name="xen"
+  public_key="${file("~/.ssh/xen.pub")}"
 }
 
 resource "aws_route53_record" "cluster_dot" {
@@ -18,7 +12,7 @@ resource "aws_route53_record" "cluster_dot" {
   name    = "${var.cluster_name}.${var.hosted_zone_name}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_eip.static_ip.public_ip}"]
+  records = ["${aws_instance.ecs_host.public_ip}"]
 }
 
 resource "aws_route53_record" "service_dot_cluster_dot" {
@@ -26,7 +20,7 @@ resource "aws_route53_record" "service_dot_cluster_dot" {
   name    = "*.${var.cluster_name}.${var.hosted_zone_name}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_eip.static_ip.public_ip}"]
+  records = ["${aws_instance.ecs_host.public_ip}"]
 }
 
 resource "aws_iam_instance_profile" "ecs_profile" {
@@ -63,12 +57,12 @@ resource "aws_efs_mount_target" "ecs_efs_mount" {
 
 resource "aws_instance" "ecs_host" {
   key_name = "${aws_key_pair.keypair.key_name}"
-  ami = "ami-cad827b7"  // us-east-1 amzn-ami-2017.09.i-amazon-ecs-optimized
+  ami = "ami-045f1b3f87ed83659"  // us-east-1 amzn-ami-2018.03.i-amazon-ecs-optimized
   instance_type = "${var.instance_type}"
-  private_ip = "172.31.0.246"
   subnet_id  = "${var.subnet_id}"
   vpc_security_group_ids = ["${aws_security_group.ecs_group.id}"]
   iam_instance_profile = "${aws_iam_instance_profile.ecs_profile.name}"
+  # ebs_optimized = true
 
   tags {
     Cluster = "${var.cluster_name}"
@@ -85,7 +79,7 @@ EOF
 
     connection {
       user = "ec2-user"
-      private_key = "${file("~/.ssh/ec2-bjacobel")}"
+      private_key = "${file("~/.ssh/xen")}"
     }
   }
 
@@ -105,4 +99,10 @@ data "template_file" "user_data" {
 
 resource "aws_kms_key" "ecs" {
   description = "Encrypts secrets used in the ${aws_ecs_cluster.cluster.name} ECS cluster"
+}
+
+resource "aws_service_discovery_private_dns_namespace" "internal" {
+  vpc         = "${var.vpc_id}"
+  name        = "xen.internal"
+  description = "internal DNS SD for xen cluster"
 }

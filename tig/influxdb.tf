@@ -31,11 +31,34 @@ resource "aws_ecs_task_definition" "influxdb" {
   }
 }
 
+resource "aws_service_discovery_service" "influxdb" {
+  name = "influxdb"
+
+  dns_config {
+    namespace_id = "${var.service_registry_dns_namespace_id}"
+
+    dns_records {
+      ttl  = 10
+      type = "SRV"
+    }
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
+
 resource "aws_ecs_service" "influxdb" {
   name = "tf-service-influxdb"
   cluster = "${var.cluster_id}"
   task_definition = "${aws_ecs_task_definition.influxdb.arn}"
   desired_count = 1
+
+  service_registries {
+    registry_arn  = "${aws_service_discovery_service.influxdb.arn}"
+    container_name = "influxdb"
+    container_port = 8086
+  }
 }
 
 resource "aws_cloudwatch_log_group" "influx" {

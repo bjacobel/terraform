@@ -21,10 +21,33 @@ resource "aws_ecs_task_definition" "gogs_defn" {
   }
 }
 
+resource "aws_service_discovery_service" "gogs" {
+  name = "gogs"
+
+  dns_config {
+    namespace_id = "${var.service_registry_dns_namespace_id}"
+
+    dns_records {
+      ttl  = 10
+      type = "SRV"
+    }
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
+
 resource "aws_ecs_service" "gogs_svc" {
   name = "gogs"
   cluster = "${var.cluster_id}"
   task_definition = "${aws_ecs_task_definition.gogs_defn.arn}"
   desired_count = 1
   deployment_minimum_healthy_percent = 0
+
+  service_registries {
+    registry_arn  = "${aws_service_discovery_service.gogs.arn}"
+    container_name = "gogs"
+    container_port = 3000
+  }
 }

@@ -35,6 +35,9 @@
         "value": "${SMTP_PROVIDER}"
       }
     ],
+    "portMappings": [{
+      "containerPort" : 3000
+    }],
     "links": [
       "postgres"
     ],

@@ -7,9 +7,13 @@ output "kms_key_id" {
 }
 
 output "cluster_ip" {
-  value = "${aws_eip.static_ip.public_ip}"
+  value = "${aws_instance.ecs_host.public_ip}"
 }
 
 output "instance_role_arn" {
   value = "${aws_iam_role.ecs_role.arn}"
+}
+
+output "service_registry_dns_namespace_id" {
+  value = "${aws_service_discovery_private_dns_namespace.internal.id}"
 }

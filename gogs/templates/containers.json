@@ -9,6 +9,11 @@
         "sourceVolume": "data"
       }
     ],
+    "portMappings": [{
+      "containerPort": 3000
+    }, {
+      "containerPort": 22
+    }],
     "name": "gogs",
     "environment": [
     ],

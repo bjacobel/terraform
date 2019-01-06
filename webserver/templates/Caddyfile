@@ -1,7 +1,7 @@
 ${url} {
   log stdout
   gzip
-  proxy / ${service}.docker:${port} {
+  proxy / srv://${service}.xen.internal {
     transparent
   }
   tls ${email}

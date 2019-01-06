@@ -32,12 +32,35 @@ resource "aws_ecs_task_definition" "klaxon_defn" {
   }
 }
 
+resource "aws_service_discovery_service" "klaxon" {
+  name = "klaxon"
+
+  dns_config {
+    namespace_id = "${var.service_registry_dns_namespace_id}"
+
+    dns_records {
+      ttl  = 10
+      type = "SRV"
+    }
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
+
 resource "aws_ecs_service" "klaxon_svc" {
   name = "klaxon"
   cluster = "${var.cluster_id}"
   task_definition = "${aws_ecs_task_definition.klaxon_defn.arn}"
   desired_count = 1
   deployment_minimum_healthy_percent = 0
+
+  service_registries {
+    registry_arn  = "${aws_service_discovery_service.klaxon.arn}"
+    container_name = "klaxon"
+    container_port = 3000
+  }
 }
 
 resource "aws_ses_domain_identity" "ses_domain" {

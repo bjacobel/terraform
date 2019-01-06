@@ -31,7 +31,7 @@
     ],
     "command": [
       "-c",
-      "echo \"${caddyfile}\" | sed 's/\\\\n/\\n/g' > /caddy/Caddyfile && /usr/bin/caddy --conf /caddy/Caddyfile"
+      "echo \"${caddyfile}\" | sed 's/\\\\n/\\n/g' > /caddy/Caddyfile && /usr/bin/caddy --conf /caddy/Caddyfile --agree"
     ],
     "image": "yobasystems/alpine-caddy",
     "logConfiguration": {
