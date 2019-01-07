@@ -41,7 +41,7 @@
     "links": [
       "postgres"
     ],
-    "image": "bjacobel/klaxon",
+    "image": "axioscode/klaxon",
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -53,7 +53,7 @@
     "command": [
       "sh",
       "-c",
-      "sleep 30; service cron start; bundle exec puma -C config/puma.rb"
+      "sleep 30; bundle exec puma -C config/puma.rb"
     ],
     "essential": true,
     "memoryReservation": 100
