@@ -57,7 +57,7 @@ resource "aws_efs_mount_target" "ecs_efs_mount" {
 
 resource "aws_instance" "ecs_host" {
   key_name = "${aws_key_pair.keypair.key_name}"
-  ami = "ami-045f1b3f87ed83659"  // us-east-1 amzn-ami-2018.03.i-amazon-ecs-optimized
+  ami = "ami-031507b307be48f22"  // us-east-1 amzn-ami-2018.03.k-amazon-ecs-optimized
   instance_type = "${var.instance_type}"
   subnet_id  = "${var.subnet_id}"
   vpc_security_group_ids = ["${aws_security_group.ecs_group.id}"]
