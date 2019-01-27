@@ -45,9 +45,9 @@ module "webserver" {
     {
       name = "klaxon"
     },
-    {
-      name = "gogs"
-    },
+    # {
+    #   name = "gogs"
+    # },
     {
       name = "grafana"
     },
@@ -57,15 +57,15 @@ module "webserver" {
   ]
 }
 
-module "gogs" {
-  source       = "./gogs"
-  cluster_id   = "${module.ecs.cluster_id}"
-  email        = "${var.email}"
-  domain       = "${var.domain}"
-  region       = "${var.region}"
-  cluster_name = "${var.cluster_name}"
-  service_registry_dns_namespace_id = "${module.ecs.service_registry_dns_namespace_id}"
-}
+# module "gogs" {
+#   source       = "./gogs"
+#   cluster_id   = "${module.ecs.cluster_id}"
+#   email        = "${var.email}"
+#   domain       = "${var.domain}"
+#   region       = "${var.region}"
+#   cluster_name = "${var.cluster_name}"
+#   service_registry_dns_namespace_id = "${module.ecs.service_registry_dns_namespace_id}"
+# }
 
 module "katefeatherstondotcom" {
   source = "./katefeatherston.com"

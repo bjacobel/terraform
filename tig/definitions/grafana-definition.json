@@ -3,7 +3,7 @@
     "essential": true,
     "image": "${grafana_image}",
     "name": "${grafana_container_name}",
-    "memoryReservation": 200,
+    "memoryReservation": 100,
     "mountPoints": [
       {
         "sourceVolume": "grafana-sqlite",

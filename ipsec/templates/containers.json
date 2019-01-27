@@ -44,6 +44,6 @@
       }
     },
     "privileged": true,
-    "memoryReservation": 100
+    "memoryReservation": 50
   }
 ]
