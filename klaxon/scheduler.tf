@@ -33,6 +33,7 @@ resource "aws_cloudwatch_event_target" "scheduler" {
   rule = "${aws_cloudwatch_event_rule.scheduler.name}"
   arn = "${var.cluster_id}"
   role_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/ecsEventsRole"
+  input = "{}"
 
   ecs_target {
     task_count = 1
