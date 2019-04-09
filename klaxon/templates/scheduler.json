@@ -8,9 +8,6 @@
         "value": "${DATABASE_URL}"
       }
     ],
-    "links": [
-      "postgres"
-    ],
     "image": "axioscode/klaxon",
     "command": [
       "sh",
@@ -23,27 +20,6 @@
         "awslogs-group": "${log_group_name}",
         "awslogs-region": "${region}",
         "awslogs-stream-prefix": "scheduler"
-      }
-    },
-    "memoryReservation": 50
-  },
-  {
-    "name": "postgres",
-    "hostname": "postgres",
-    "essential": true,
-    "mountPoints": [
-      {
-        "containerPath": "/var/lib/postgresql/data",
-        "sourceVolume": "postgres-data"
-      }
-    ],
-    "image": "postgres:9.6-alpine",
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "${log_group_name}",
-        "awslogs-region": "${region}",
-        "awslogs-stream-prefix": "postgres"
       }
     },
     "memoryReservation": 50

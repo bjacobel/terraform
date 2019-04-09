@@ -1,6 +1,6 @@
 provider "aws" {
   region  = "${var.region}"
-  version = "~> 1.50"
+  version = "~> 1.60"
 }
 
 // The lines below set up common infra; everything you need to do anything interesting in AWS.

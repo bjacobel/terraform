@@ -1,7 +1,6 @@
 variable region {}
 variable domain {}
 
-variable DATABASE_URL {}
 variable AMAZON_SES_ADDRESS {}
 variable AMAZON_SES_DOMAIN {}
 variable MAILER_FROM_ADDRESS {}

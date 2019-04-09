@@ -8,7 +8,7 @@ data "template_file" "container_definitions" {
   vars {
     log_group_name = "${aws_cloudwatch_log_group.klaxon_group.name}"
     region = "${var.region}"
-    DATABASE_URL = "${var.DATABASE_URL}"
+    DATABASE_URL = "postgresql://klaxon:${aws_ssm_parameter.klaxon_secretkey.value}@${aws_rds_cluster.klaxon_db.endpoint}:5432"
     ADMIN_EMAILS = "${var.email}"
     AMAZON_SES_ADDRESS = "${var.AMAZON_SES_ADDRESS}"
     AMAZON_SES_DOMAIN = "${var.AMAZON_SES_DOMAIN}"
@@ -25,11 +25,6 @@ data "template_file" "container_definitions" {
 resource "aws_ecs_task_definition" "klaxon_defn" {
   family = "klaxon"
   container_definitions = "${data.template_file.container_definitions.rendered}"
-
-  volume {
-    name = "postgres-data"
-    host_path = "/efs/klaxon/postgres-data"
-  }
 }
 
 resource "aws_service_discovery_service" "klaxon" {

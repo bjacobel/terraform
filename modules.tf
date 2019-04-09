@@ -10,8 +10,10 @@ module "ecs" {
 
 module "klaxon" {
   source               = "./klaxon"
+  subnet_id            = "${element(aws_subnet.subnets.*.id, 0)}"
+  vpc_id               = "${aws_vpc.vpc.id}"
+  security_group_id    = "${module.ecs.security_group_id}"
   hosted_zone_id       = "${aws_route53_zone.hosted_zone.zone_id}"
-  DATABASE_URL         = "${var.DATABASE_URL}"
   AMAZON_SES_ADDRESS   = "${var.AMAZON_SES_ADDRESS}"
   AMAZON_SES_DOMAIN    = "${var.AMAZON_SES_DOMAIN}"
   MAILER_FROM_ADDRESS  = "${var.MAILER_FROM_ADDRESS}"

@@ -17,3 +17,7 @@ output "instance_role_arn" {
 output "service_registry_dns_namespace_id" {
   value = "${aws_service_discovery_private_dns_namespace.internal.id}"
 }
+
+output "security_group_id" {
+  value = "${aws_security_group.ecs_group.id}"
+}

@@ -1,4 +1,6 @@
-variable DATABASE_URL {}
+variable subnet_id {}
+variable vpc_id {}
+variable security_group_id {}
 variable AMAZON_SES_ADDRESS {}
 variable AMAZON_SES_DOMAIN {}
 variable MAILER_FROM_ADDRESS {}

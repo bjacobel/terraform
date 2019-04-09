@@ -4,18 +4,13 @@ data "template_file" "scheduler_task_definition" {
   vars {
     log_group_name = "${aws_cloudwatch_log_group.klaxon_group.name}"
     region = "${var.region}"
-    DATABASE_URL = "${var.DATABASE_URL}"
+    DATABASE_URL = "postgresql://klaxon:${aws_ssm_parameter.klaxon_secretkey.value}@${aws_rds_cluster.klaxon_db.endpoint}:5432"
   }
 }
 
 resource "aws_ecs_task_definition" "scheduler" {
   family = "klaxon-scheduler"
   container_definitions = "${data.template_file.scheduler_task_definition.rendered}"
-
-  volume {
-    name = "postgres-data"
-    host_path = "/efs/klaxon/postgres-data"
-  }
 }
 
 resource "aws_cloudwatch_event_rule" "scheduler" {
