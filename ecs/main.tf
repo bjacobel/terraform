@@ -67,6 +67,10 @@ resource "aws_instance" "ecs_host" {
   tags {
     Cluster = "${var.cluster_name}"
   }
+  
+  credit_specification {
+    cpu_credits = "standard"
+  }
 
   user_data = <<EOF
 ${data.template_file.user_data.rendered}
