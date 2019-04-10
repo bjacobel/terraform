@@ -1,4 +1,6 @@
-variable subnet_id {}
+variable subnets {
+  type = "list"
+}
 variable vpc_id {}
 variable security_group_id {}
 variable AMAZON_SES_ADDRESS {}

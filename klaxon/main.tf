@@ -8,7 +8,8 @@ data "template_file" "container_definitions" {
   vars {
     log_group_name = "${aws_cloudwatch_log_group.klaxon_group.name}"
     region = "${var.region}"
-    DATABASE_URL = "postgresql://klaxon:${aws_ssm_parameter.klaxon_secretkey.value}@${aws_rds_cluster.klaxon_db.endpoint}:5432"
+    // When Postgres Aurora Serverless exits preview, this can be `aws_rds_cluster.klaxon_db.endpoint`
+    DATABASE_URL = "postgresql://klaxon:${aws_ssm_parameter.klaxon_secretkey.value}@${"aws_rds_cluster.klaxon_db.endpoint"}:5432"
     ADMIN_EMAILS = "${var.email}"
     AMAZON_SES_ADDRESS = "${var.AMAZON_SES_ADDRESS}"
     AMAZON_SES_DOMAIN = "${var.AMAZON_SES_DOMAIN}"
@@ -101,4 +102,11 @@ resource "aws_ssm_parameter" "klaxon_secretkey" {
   lifecycle {
       ignore_changes = ["value", "version"]
   }
+}
+
+module "rds" {
+  name             = "klaxon"
+  source           = "../rds"
+  ingress_sg       = "${var.security_group_id}"
+  us-east-1-vpc-id = "${var.vpc_id}"
 }

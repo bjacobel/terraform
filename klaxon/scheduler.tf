@@ -4,7 +4,8 @@ data "template_file" "scheduler_task_definition" {
   vars {
     log_group_name = "${aws_cloudwatch_log_group.klaxon_group.name}"
     region = "${var.region}"
-    DATABASE_URL = "postgresql://klaxon:${aws_ssm_parameter.klaxon_secretkey.value}@${aws_rds_cluster.klaxon_db.endpoint}:5432"
+    // When Postgres Aurora Serverless exits preview, this can be `aws_rds_cluster.klaxon_db.endpoint`
+    DATABASE_URL = "postgresql://klaxon:${aws_ssm_parameter.klaxon_secretkey.value}@${"klaxon-db.cluster-cyeuxymacsh3.us-east-2.rds.amazonaws.com"}:5432"
   }
 }
 

@@ -10,7 +10,7 @@ module "ecs" {
 
 module "klaxon" {
   source               = "./klaxon"
-  subnet_id            = "${element(aws_subnet.subnets.*.id, 0)}"
+  subnets              = ["${slice(aws_subnet.subnets.*.id, 0, 2)}"]
   vpc_id               = "${aws_vpc.vpc.id}"
   security_group_id    = "${module.ecs.security_group_id}"
   hosted_zone_id       = "${aws_route53_zone.hosted_zone.zone_id}"

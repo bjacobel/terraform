@@ -1,0 +1,1 @@
+This module contains terraform for setting up an RDS cluster, but more importantly, for handling a secondary AWS region and the peering connection between the main one and the one hosting this new resource. This was needed because Aurora Serverless Postgres is only available in us-east-2, but fuck if I'm moving all my stuff from the DC that's 4ms from my apartment.
