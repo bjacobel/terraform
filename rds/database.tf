@@ -28,7 +28,7 @@ resource "aws_security_group" "rds_db" {
 resource "aws_db_subnet_group" "rds_db" {
   name        = "${var.name}-db-subnet"
   description = "subnet for ${var.name} database in aurora"
-  subnet_ids  = ["${slice(aws_subnet.subnets.*.id, 0, 2)}"]
+  subnet_ids  = ["${aws_subnet.subnets.*.id}"]
 }
 
 resource "aws_rds_cluster" "rds_db" {
