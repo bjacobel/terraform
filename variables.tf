@@ -8,4 +8,5 @@ variable SMTP_PROVIDER {}
 
 variable cluster_name {}
 variable instance_type {}
+variable price_cap {}
 variable email {}

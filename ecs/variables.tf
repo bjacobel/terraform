@@ -4,3 +4,4 @@ variable hosted_zone_name {}
 variable hosted_zone_id {}
 variable subnet_id {}
 variable vpc_id {}
+variable price_cap {}

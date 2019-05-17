@@ -7,7 +7,7 @@ output "kms_key_id" {
 }
 
 output "cluster_ip" {
-  value = "${aws_instance.ecs_host.public_ip}"
+  value = "${aws_spot_instance_request.ecs_host.public_ip}"
 }
 
 output "instance_role_arn" {

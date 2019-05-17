@@ -12,7 +12,7 @@ resource "aws_route53_record" "cluster_dot" {
   name    = "${var.cluster_name}.${var.hosted_zone_name}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_instance.ecs_host.public_ip}"]
+  records = ["${aws_spot_instance_request.ecs_host.public_ip}"]
 }
 
 resource "aws_route53_record" "service_dot_cluster_dot" {
@@ -20,7 +20,7 @@ resource "aws_route53_record" "service_dot_cluster_dot" {
   name    = "*.${var.cluster_name}.${var.hosted_zone_name}"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_instance.ecs_host.public_ip}"]
+  records = ["${aws_spot_instance_request.ecs_host.public_ip}"]
 }
 
 resource "aws_iam_instance_profile" "ecs_profile" {
@@ -55,7 +55,9 @@ resource "aws_efs_mount_target" "ecs_efs_mount" {
   security_groups = ["${aws_security_group.nfs_group.id}"]
 }
 
-resource "aws_instance" "ecs_host" {
+resource "aws_spot_instance_request" "ecs_host" {
+  spot_price = "${var.price_cap}"
+  wait_for_fulfillment = true
   key_name = "${aws_key_pair.keypair.key_name}"
   ami = "ami-0796380bc6e51157f"  // us-east-1 amzn-ami-2018.03.m-amazon-ecs-optimized
   instance_type = "${var.instance_type}"
@@ -67,7 +69,7 @@ resource "aws_instance" "ecs_host" {
   tags {
     Cluster = "${var.cluster_name}"
   }
-  
+
   credit_specification {
     cpu_credits = "standard"
   }

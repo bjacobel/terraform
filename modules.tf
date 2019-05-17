@@ -6,6 +6,7 @@ module "ecs" {
   vpc_id           = "${aws_vpc.vpc.id}"
   cluster_name     = "${var.cluster_name}"
   instance_type    = "${var.instance_type}"
+  price_cap        = "${var.price_cap}"
 }
 
 module "klaxon" {
