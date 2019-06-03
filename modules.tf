@@ -9,24 +9,24 @@ module "ecs" {
   price_cap        = "${var.price_cap}"
 }
 
-module "klaxon" {
-  source               = "./klaxon"
-  subnets              = ["${slice(aws_subnet.subnets.*.id, 0, 2)}"]
-  vpc_id               = "${aws_vpc.vpc.id}"
-  security_group_id    = "${module.ecs.security_group_id}"
-  hosted_zone_id       = "${aws_route53_zone.hosted_zone.zone_id}"
-  AMAZON_SES_ADDRESS   = "${var.AMAZON_SES_ADDRESS}"
-  AMAZON_SES_DOMAIN    = "${var.AMAZON_SES_DOMAIN}"
-  MAILER_FROM_ADDRESS  = "${var.MAILER_FROM_ADDRESS}"
-  SMTP_PROVIDER        = "${var.SMTP_PROVIDER}"
-  email                = "${var.email}"
-  domain               = "${var.domain}"
-  region               = "${var.region}"
-  cluster_name         = "${var.cluster_name}"
-  cluster_id           = "${module.ecs.cluster_id}"
-  kms_key_id           = "${module.ecs.kms_key_id}"
-  service_registry_dns_namespace_id = "${module.ecs.service_registry_dns_namespace_id}"
-}
+# module "klaxon" {
+#   source               = "./klaxon"
+#   subnets              = ["${slice(aws_subnet.subnets.*.id, 0, 2)}"]
+#   vpc_id               = "${aws_vpc.vpc.id}"
+#   security_group_id    = "${module.ecs.security_group_id}"
+#   hosted_zone_id       = "${aws_route53_zone.hosted_zone.zone_id}"
+#   AMAZON_SES_ADDRESS   = "${var.AMAZON_SES_ADDRESS}"
+#   AMAZON_SES_DOMAIN    = "${var.AMAZON_SES_DOMAIN}"
+#   MAILER_FROM_ADDRESS  = "${var.MAILER_FROM_ADDRESS}"
+#   SMTP_PROVIDER        = "${var.SMTP_PROVIDER}"
+#   email                = "${var.email}"
+#   domain               = "${var.domain}"
+#   region               = "${var.region}"
+#   cluster_name         = "${var.cluster_name}"
+#   cluster_id           = "${module.ecs.cluster_id}"
+#   kms_key_id           = "${module.ecs.kms_key_id}"
+#   service_registry_dns_namespace_id = "${module.ecs.service_registry_dns_namespace_id}"
+# }
 
 module "ipsec" {
   source     = "./ipsec"
@@ -45,9 +45,9 @@ module "webserver" {
   cluster_name = "${var.cluster_name}"
 
   services = [
-    {
-      name = "klaxon"
-    },
+    # {
+    #   name = "klaxon"
+    # },
     # {
     #   name = "gogs"
     # },

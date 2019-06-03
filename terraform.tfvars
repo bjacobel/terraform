@@ -7,6 +7,6 @@ MAILER_FROM_ADDRESS = "klaxon@bjacobel.com"
 SMTP_PROVIDER = "AMAZON_SES"
 
 cluster_name = "xen"
-instance_type = "t3.small"
-price_cap = 0.01
+instance_type = "t3.micro"
+price_cap = 0.0032
 email = "bjacobel@gmail.com"
